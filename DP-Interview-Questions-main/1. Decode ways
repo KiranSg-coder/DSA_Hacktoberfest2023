@@ -1,0 +1,32 @@
+
+// memoization approach
+
+class DecodeWays {
+    public int numDecodings(String s) { 
+          int n = s.length();
+          int[]  dp =new int[n+1];
+          Arrays.fill(dp, -1);
+
+          int mod = 1000000007;
+          return helper(s, 0, dp,mod);
+    }
+
+    private int helper(String s, int id, int[] dp, int mod) {
+
+        if (id == s.length()) return 1;
+
+          if(s.charAt(id) == '0') return 0;
+          if(dp[id] != -1) return dp[id];
+
+          int ans1 = helper(s, id+1, dp, mod)%mod;
+      
+
+          if (id + 1 < s.length() && ((s.charAt(id) - '0') * 10 + (s.charAt(id + 1) - '0')) <= 26) {
+          ans1 = (ans1 + helper(s, id + 2, dp, mod)) % mod;
+    }
+
+          dp[id] = ans1;                                         // TC - O(n)
+          return ans1;                                           // Sc - O(n) + O(n) 
+    }
+}
+//---------------------------------------------------------------------------------------------------------------------------------
